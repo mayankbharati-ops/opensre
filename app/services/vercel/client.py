@@ -272,7 +272,10 @@ class VercelClient:
                 "[vercel] list_projects HTTP failure status=%s",
                 e.response.status_code,
             )
-            return {"success": False, "error": f"HTTP {e.response.status_code}: {e.response.text[:200]}"}
+            return {
+                "success": False,
+                "error": f"HTTP {e.response.status_code}: {e.response.text[:200]}",
+            }
         except Exception as e:
             logger.warning("[vercel] list_projects error type=%s detail=%s", type(e).__name__, e)
             return {"success": False, "error": str(e)}
@@ -310,7 +313,10 @@ class VercelClient:
                 e.response.status_code,
                 cleaned,
             )
-            return {"success": False, "error": f"HTTP {e.response.status_code}: {e.response.text[:200]}"}
+            return {
+                "success": False,
+                "error": f"HTTP {e.response.status_code}: {e.response.text[:200]}",
+            }
         except Exception as e:
             logger.warning("[vercel] get_project error type=%s detail=%s", type(e).__name__, e)
             return {"success": False, "error": str(e)}
@@ -360,7 +366,10 @@ class VercelClient:
                 _scrub_log_fragment(project_id),
                 _scrub_log_fragment(state),
             )
-            return {"success": False, "error": f"HTTP {e.response.status_code}: {e.response.text[:200]}"}
+            return {
+                "success": False,
+                "error": f"HTTP {e.response.status_code}: {e.response.text[:200]}",
+            }
         except Exception as e:
             logger.warning("[vercel] list_deployments error type=%s detail=%s", type(e).__name__, e)
             return {"success": False, "error": str(e)}
@@ -397,7 +406,10 @@ class VercelClient:
                 e.response.status_code,
                 _scrub_log_fragment(deployment_id),
             )
-            return {"success": False, "error": f"HTTP {e.response.status_code}: {e.response.text[:200]}"}
+            return {
+                "success": False,
+                "error": f"HTTP {e.response.status_code}: {e.response.text[:200]}",
+            }
         except Exception as e:
             logger.warning("[vercel] get_deployment error type=%s detail=%s", type(e).__name__, e)
             return {"success": False, "error": str(e)}
@@ -418,12 +430,14 @@ class VercelClient:
             for ev in raw_events:
                 if not isinstance(ev, dict):
                     continue
-                events.append({
-                    "id": str(ev.get("id", "")),
-                    "type": ev.get("type", ""),
-                    "created": ev.get("created", ""),
-                    "text": _extract_event_text(ev),
-                })
+                events.append(
+                    {
+                        "id": str(ev.get("id", "")),
+                        "type": ev.get("type", ""),
+                        "created": ev.get("created", ""),
+                        "text": _extract_event_text(ev),
+                    }
+                )
             return {"success": True, "events": events, "total": len(events)}
         except httpx.HTTPStatusError as e:
             logger.warning(
@@ -431,9 +445,14 @@ class VercelClient:
                 e.response.status_code,
                 _scrub_log_fragment(deployment_id),
             )
-            return {"success": False, "error": f"HTTP {e.response.status_code}: {e.response.text[:200]}"}
+            return {
+                "success": False,
+                "error": f"HTTP {e.response.status_code}: {e.response.text[:200]}",
+            }
         except Exception as e:
-            logger.warning("[vercel] get_deployment_events error type=%s detail=%s", type(e).__name__, e)
+            logger.warning(
+                "[vercel] get_deployment_events error type=%s detail=%s", type(e).__name__, e
+            )
             return {"success": False, "error": str(e)}
 
     def get_runtime_logs(
@@ -526,9 +545,14 @@ class VercelClient:
                     e.response.status_code,
                     _scrub_log_fragment(deployment_id),
                 )
-                return {"success": False, "error": f"HTTP {e.response.status_code}: {e.response.text[:200]}"}
+                return {
+                    "success": False,
+                    "error": f"HTTP {e.response.status_code}: {e.response.text[:200]}",
+                }
             except Exception as e:
-                logger.warning("[vercel] get_runtime_logs error type=%s detail=%s", type(e).__name__, e)
+                logger.warning(
+                    "[vercel] get_runtime_logs error type=%s detail=%s", type(e).__name__, e
+                )
                 return {"success": False, "error": str(e)}
 
         detail = last_retryable_detail or "Transient runtime log transport error"
